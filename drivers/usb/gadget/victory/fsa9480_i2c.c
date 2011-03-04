@@ -1298,7 +1298,7 @@ static ssize_t rndis_enable_store(struct device *dev, struct device_attribute *a
 	unsigned long val;
 	int res;
 
-	if ((res = strict_strlout(buf, 10, &val)) < 0)
+	if ((res = strict_strtoul(buf, 10, &val)) < 0)
 		return res;
 	switch (val) {
 	case 0:
