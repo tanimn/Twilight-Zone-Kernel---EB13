@@ -698,6 +698,7 @@ recheck:
 			dev->adb_enabled = enable;
 		}
 		else if(enable == USBSTATUS_RNDIS)
+		{
 			prev_status_before_rndis = prev_enable_status;
 			ret = usb_change_config(dev->cdev, &rndis_only_config);
 			if (ret) {
