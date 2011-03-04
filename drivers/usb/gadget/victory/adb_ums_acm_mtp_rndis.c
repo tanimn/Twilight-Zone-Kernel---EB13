@@ -586,6 +586,7 @@ int ums_mount_status = 0;
 int askonstatus = 0;
 int inaskonstatus=0;
 static int prev_status_before_adb;  // previous USB setting before using ADB
+static int prev_status_before_rndis; // previous USB setting before using RNDIS
 static int prev_enable_status;  // previous USB setting
 extern int mtp_mode_on;
 extern int usb_on;
@@ -681,10 +682,26 @@ recheck:
 				prev_enable_status = prev_status_before_adb = 0; //reset
 				goto recheck;
 				}
-
+			if(prev_enable_status == USBSTATUS_RNDIS && prev_status_before_rndis != USBSTATUS_UMS)
+				{
+				printk("[USB] %s - prev_status90x%02x), prev_status_before_rndis setting90x%02x)\n",
+					__func__, prev_enable_status, prev_status_before_rndis);
+				enable = prev_status_before_rndis;
+				prev_enable_status = prev_status_before_rndis = 0;
+				goto recheck;
+				}
+	
 			ret = usb_change_config(dev->cdev, &ums_only_config);
 			if (ret) {
 				printk("[%s] Fail to ums_only_config()\n", __func__);
+			}
+			dev->adb_enabled = enable;
+		}
+		else if(enable == USBSTATUS_RNDIS)
+			prev_status_before_rndis = prev_enable_status;
+			ret = usb_change_config(dev->cdev, &rndis_only_config);
+			if (ret) {
+				printk("[%s] Fail to rndis_only_config()\n", __func__);
 			}
 			dev->adb_enabled = enable;
 		}
