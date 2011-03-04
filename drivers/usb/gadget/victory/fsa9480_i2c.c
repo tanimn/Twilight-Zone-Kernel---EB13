@@ -1301,7 +1301,7 @@ static ssize_t rndis_enable_store(struct device *dev, struct device_attribute *a
 	if ((res = strict_strlout(buf, 10, &val)) < 0)
 		return res;
 	switch (val) {
-	case 0;
+	case 0:
 		if ((res = usb_switch_select(USBSTATUS_UMS)) < 0)
 			return res;
 		break;
