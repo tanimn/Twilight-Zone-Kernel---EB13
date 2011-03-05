@@ -40,7 +40,6 @@ static int g_dock;
 #define HOME_DOCK_INSERTED 1
 #define CAR_DOCK_INSERTED 2
 
-int oldusbstatus=0;
 
 int mtp_mode_on = 0;
 int usb_on = 1;
@@ -1212,7 +1211,7 @@ static ssize_t tethering_switch_store(struct device *dev, struct device_attribut
 		printk("tethering Off\n");
 
 		g_tethering = 0;
-		usb_switch_select(oldusbstatus);
+		usb_switch_select(USBSTATUS_UMS);
 		if(usbstatus)
 			UsbIndicator(1);
 	}
@@ -1292,25 +1291,6 @@ static ssize_t get_SwitchingInitValue(struct device *dev, struct device_attribut
 #endif
 
 static DEVICE_ATTR(SwitchingInitValue, S_IRUGO, get_SwitchingInitValue, NULL);
-
-static ssize_t rndis_enable_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
-{
-	unsigned long val;
-	int res;
-
-	if ((res = strict_strtoul(buf, 10, &val)) < 0)
-		return res;
-	switch (val) {
-	case 0:
-		if ((res = usb_switch_select(USBSTATUS_UMS)) < 0)
-			return res;
-		break;
-	default:
-		return -EINVAL;
-	}
-	return count;
-}
-static DEVICE_ATTR(rndis_enable, S_IRUGO | S_IWUSR, NULL, rndis_enable_store);
 
 int  FSA9480_PMIC_CP_USB(void)
 {
@@ -2290,8 +2270,6 @@ static int fsa9480_codec_probe(struct i2c_client *client, const struct i2c_devic
 	if (device_create_file(switch_dev, &dev_attr_wimax_usb_state) < 0)
 		pr_err("Failed to create device file(%s)!\n", dev_attr_wimax_usb_state.attr.name);		
 	#endif
-	if (device_create_file(switch_dev, &dev_attr_wimax_usb_state) < 0)
-		pr_err("Failed to create device file(%s)!\n", dev_attr_rndis_enable.attr.name);
 
 	#if 1 //20100605_inchul
 		wake_lock_init(&cable_wake_lock, WAKE_LOCK_SUSPEND, "wimax_cable_connected");
