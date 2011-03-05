@@ -4,12 +4,12 @@
 BUILD_KERNEL=y
 CLEAN=n
 CROSS_COMPILE="$PWD/../../../toolchain/arm-2009q3/bin/arm-none-linux-gnueabi-"
-DEFCONFIG=n
+DEFCONFIG=y
 MKZIP='7z -mx9 -mmt=1 a "$OUTFILE" .'
 PRODUCE_TAR=n
-PRODUCE_ZIP=y
-TARGET="victory_03"
-THREADS=3
+PRODUCE_ZIP=n
+TARGET="Twilight_Zone_01"
+THREADS=4
 VERSION=$(date +%Y%m%d%H%M)
 
 SHOW_HELP()
