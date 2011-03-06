@@ -3,7 +3,8 @@
 # Defaults
 BUILD_KERNEL=y
 CLEAN=n
-CROSS_COMPILE="$PWD/../../../toolchain/arm-2009q3/bin/arm-none-linux-gnueabi-"
+# CROSS_COMPILE="$PWD/../../../toolchain/arm-2009q3/bin/arm-none-linux-gnueabi-"
+CROSS_COMPILE="$PWD/../../../toolchain/arm-2010.09/bin/arm-none-eabi-"
 DEFCONFIG=y
 MKZIP='7z -mx9 -mmt=1 a "$OUTFILE" .'
 PRODUCE_TAR=n
@@ -11,6 +12,9 @@ PRODUCE_ZIP=n
 TARGET="Twilight_Zone_01"
 THREADS=4
 VERSION=$(date +%Y%m%d%H%M)
+TRACK=y
+TRACK_OUT="$PWD/../../out"
+TRACK_STORE="$PWD/../../../archives/builds"
 
 SHOW_HELP()
 {
@@ -53,6 +57,7 @@ echo "make threads  == "$THREADS
 echo "build kernel  == "$BUILD_KERNEL
 echo "create tar    == "$PRODUCE_TAR
 echo "create zip    == "$PRODUCE_ZIP
+echo "track builds  == "$TRACK
 
 if [ "$CLEAN" = "y" ] ; then
 	echo "Cleaning source directory." && echo ""
@@ -87,4 +92,11 @@ if [ "$PRODUCE_ZIP" = y ] ; then
 	eval "$MKZIP" >/dev/null 2>&1
 	cd ..
 	mv $"OUTFILE"-signed "$OUTFILE"
+fi
+
+if [ "$TRACK" = "y" ] ; then
+	echo "copying zImage to ${TRACK_OUT}"
+	cp arch/arm/boot/zImage ${TRACK_OUT}
+	echo "storing zImage as ${TRACK_STORE}/zImage.${TARGET}.${VERSION}"
+	cp arch/arm/boot/zImage ${TRACK_STORE}/zImage.${TARGET}.${VERSION}
 fi
