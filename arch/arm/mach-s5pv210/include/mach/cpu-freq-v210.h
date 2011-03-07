@@ -11,7 +11,7 @@
 
 //extern void s5pc110_lock_power_domain(unsigned int nToken);
 
-#define MAXIMUM_FREQ 1000000
+#define MAXIMUM_FREQ 1200000
 #define USE_FREQ_TABLE
 //#undef USE_DVS
 #define USE_DVS

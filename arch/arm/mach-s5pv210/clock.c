@@ -42,6 +42,8 @@ extern unsigned int s5pc11x_cpufreq_index;
 #if 0
 /*APLL_FOUT, MPLL_FOUT, ARMCLK, HCLK_DSYS*/
 static const u32 s5p_sysout_clk_tab_1GHZ[][4] = {
+	// APLL:1200,ARMCLK:1200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
+	{1200* MHZ, 667 *MHZ, 1200 *MHZ, 166 *MHZ},
 	// APLL:1000,ARMCLK:1000,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	{1000* MHZ, 667 *MHZ, 1000 *MHZ, 166 *MHZ},
 	// APLL:800,ARMCLK:800,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
@@ -60,21 +62,23 @@ static const u32 s5p_sysout_clk_tab_1GHZ[][4] = {
 /*div0 ratio table*/
 /*apll, a2m, HCLK_MSYS, PCLK_MSYS, HCLK_DSYS, PCLK_DSYS, HCLK_PSYS, PCLK_PSYS, MFC_DIV, G3D_DIV, MSYS source(2D, 3D, MFC)(0->apll,1->mpll), DMC0 div*/
 static const u32 s5p_sys_clk_div0_tab_1GHZ[][DIV_TAB_MAX_FIELD] = {
-        {0, 4, 4, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {0, 3, 3, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {1, 3, 1, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {3, 3, 0, 1, 3, 1, 4, 1, 3, 3, 0, 3},
-        {7, 3, 0, 0, 7, 0, 9, 0, 3, 3, 1, 4},
+        {0, 5, 5, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 1.2ghz
+        {0, 4, 4, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // 1.0ghz
+        {0, 3, 3, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // .8ghz
+        {1, 3, 1, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // .4ghz
+        {3, 3, 0, 1, 3, 1, 4, 1, 3, 3, 0, 3}, // .2ghz
+        {7, 3, 0, 0, 7, 0, 9, 0, 3, 3, 1, 4}, // .1ghz
 };
 
 /*pms value table*/
 /*APLL(m, p, s), MPLL(m, p, s)*/
 static const u32 s5p_sys_clk_mps_tab_1GHZ[][6] = {
-        {125, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
-        {100, 3, 1, 667, 12, 1},
+        {150, 3, 1, 667, 12, 1}, // 1.2ghz
+        {125, 3, 1, 667, 12, 1}, // 1.0ghz
+        {100, 3, 1, 667, 12, 1}, // .8ghz
+        {100, 3, 1, 667, 12, 1}, // .4ghz
+        {100, 3, 1, 667, 12, 1}, // .2ghz
+        {100, 3, 1, 667, 12, 1}, // .1ghz
 };
 
 
@@ -122,7 +126,7 @@ struct S5PC110_clk_info {
 
 
 struct S5PC110_clk_info clk_info[] = {
-#if USE_1DOT2GHZ
+// #if USE_1DOT2GHZ
 {
 	// APLL:1200,ARMCLK:1200,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	.armclk		=	1200* MHZ,
@@ -135,7 +139,7 @@ struct S5PC110_clk_info clk_info[] = {
 	.div2val	=	((3<<0)|(3<<4)|(3<<8)),
 	.dmc0_div6 	=	(3<<28),
 },
-#endif// A extra entry for 1200MHZ level 
+// #endif// A extra entry for 1200MHZ level 
 {
 	// APLL:1000,ARMCLK:1000,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	.armclk		=	1000* MHZ,
