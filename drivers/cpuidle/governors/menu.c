@@ -25,6 +25,7 @@
 #define DECAY 4
 #define MAX_INTERESTING 50000
 
+int cpu;
 /*
  * Concepts and ideas behind the menu governor
  *
@@ -130,7 +131,7 @@ static inline int which_bucket(unsigned int duration)
 	 * E(duration)|iowait
 	 */
 //	if (nr_iowait_cpu()) // throws error with new idle timer.
-	if (nr_iowait_cpu(bucket))
+	if (nr_iowait_cpu(cpu))
 		bucket = BUCKETS/2;
 
 	if (duration < 10)
@@ -163,7 +164,7 @@ static inline int performance_multiplier(void)
 
 	/* for IO wait tasks (per cpu!) we add 5x each */
 //	mult += 10 * nr_iowait_cpu(); // Throws error with new idle timer
-	mult += 10 * nr_iowait_cpu(mult);
+	mult += 10 * nr_iowait_cpu(cpu);
 
 	return mult;
 }
