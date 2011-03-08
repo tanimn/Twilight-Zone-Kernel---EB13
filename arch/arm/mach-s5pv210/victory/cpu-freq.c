@@ -38,6 +38,7 @@
 #define ENABLE_DVFS_LOCK_HIGH 1
 #define USE_DVS
 #define GPIO_BASED_DVS
+// #define USE_1DOT2GHZ 1
 
 #define DBG(fmt...)
 //#define DBG(fmt...) printk(fmt)
@@ -46,11 +47,11 @@
 unsigned int dvfs_change_direction;
 #define CLIP_LEVEL(a, b) (a > b ? b : a)
 
-unsigned int MAXFREQ_LEVEL_SUPPORTED = 5;
-unsigned int S5PC11X_MAXFREQLEVEL = 5;
+unsigned int MAXFREQ_LEVEL_SUPPORTED = 6;
+unsigned int S5PC11X_MAXFREQLEVEL = 6;
 unsigned int S5PC11X_FREQ_TAB;
 static spinlock_t g_dvfslock = SPIN_LOCK_UNLOCKED;
-static unsigned int s5pc11x_cpufreq_level = 3;
+static unsigned int s5pc11x_cpufreq_level = 5;
 unsigned int s5pc11x_cpufreq_index = 0;
 
 static char cpufreq_governor_name[CPUFREQ_NAME_LEN] = "conservative";// default governor
@@ -69,7 +70,7 @@ static DECLARE_DELAYED_WORK(dvfs_info_print_work, inform_dvfs_clock_status);
 #if ENABLE_DVFS_LOCK_HIGH
 unsigned int g_dvfs_high_lock_token = 0;
 static DEFINE_MUTEX(dvfs_high_lock);
-unsigned int g_dvfs_high_lock_limit = 4;
+unsigned int g_dvfs_high_lock_limit = 3;
 unsigned int g_dvfslockval[NUMBER_OF_LOCKTOKEN];
 bool g_dvfs_fix_lock_limit = false; // global variable to avoid up frequency scaling 
 
@@ -541,9 +542,9 @@ static int s5pc110_target(struct cpufreq_policy *policy,
 /* TODO */
 #if 0
 		if (S5PC11X_FREQ_TAB) {	
-			if (index <= 2)
+			if (index <= 3)
 				dvs_set_for_1dot2Ghz(1);
-			else if (index >= 3)
+			else if (index >= 4)
 				dvs_set_for_1dot2Ghz(0);
 		}
 #endif
@@ -562,9 +563,9 @@ static int s5pc110_target(struct cpufreq_policy *policy,
 /* TODO */
 #if 0
 		if (S5PC11X_FREQ_TAB) {	
-			if (index <= 2)
+			if (index <= 3)
 				dvs_set_for_1dot2Ghz(1);
-			else if (index >= 3)
+			else if (index >= 4)
 				dvs_set_for_1dot2Ghz(0);
 		}
 #endif
@@ -719,7 +720,7 @@ static int __init s5pc110_cpu_init(struct cpufreq_policy *policy)
 		S5PC11X_FREQ_TAB = 0;
 		S5PC11X_MAXFREQLEVEL = 5;
 		MAXFREQ_LEVEL_SUPPORTED = 6;
-		g_dvfs_high_lock_limit = 5;
+		g_dvfs_high_lock_limit = 4;
 #endif
 	
 	printk("S5PC11X_FREQ_TAB=%d , S5PC11X_MAXFREQLEVEL=%d\n",S5PC11X_FREQ_TAB,S5PC11X_MAXFREQLEVEL);
@@ -728,7 +729,7 @@ static int __init s5pc110_cpu_init(struct cpufreq_policy *policy)
       //spin_unlock_irqrestore(&g_cpufreq_lock, irqflags);
 
 	if (S5PC11X_FREQ_TAB) {	
-		prevIndex = 2;// we are currently at 800MHZ level
+		prevIndex = 3;// we are currently at 800MHZ level
 	} else {
 		prevIndex = 1;// we are currently at 800MHZ level
 	}
