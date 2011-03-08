@@ -47,8 +47,8 @@
 unsigned int dvfs_change_direction;
 #define CLIP_LEVEL(a, b) (a > b ? b : a)
 
-unsigned int MAXFREQ_LEVEL_SUPPORTED = 6;
-unsigned int S5PC11X_MAXFREQLEVEL = 6;
+unsigned int MAXFREQ_LEVEL_SUPPORTED = 7;
+unsigned int S5PC11X_MAXFREQLEVEL = 7;
 unsigned int S5PC11X_FREQ_TAB;
 static spinlock_t g_dvfslock = SPIN_LOCK_UNLOCKED;
 static unsigned int s5pc11x_cpufreq_level = 5;
@@ -81,12 +81,13 @@ extern int store_up_down_threshold(unsigned int down_threshold_value,
 
 /* frequency */
 static struct cpufreq_frequency_table s5pc110_freq_table_1GHZ[] = {
-	{L0, 1200*1000},
-	{L1, 1000*1000},
-	{L2, 800*1000},
-	{L3, 400*1000},
-	{L4, 200*1000},
-	{L5, 100*1000},
+	{L0, 1300*1000},
+	{L1, 1200*1000},
+	{L2, 1000*1000},
+	{L3, 800*1000},
+	{L4, 400*1000},
+	{L5, 200*1000},
+	{L6, 100*1000},
 	{0, CPUFREQ_TABLE_END},
 };
 
@@ -94,6 +95,7 @@ static struct cpufreq_frequency_table s5pc110_freq_table_1GHZ[] = {
 static unsigned char transition_state_1GHZ[][2] = {
         {1, 0},
         {2, 0},
+        {2, 1},
         {3, 1},
         {4, 2},
         {4, 3},
@@ -133,6 +135,7 @@ static struct cpufreq_frequency_table *s5pc110_freq_table[] = {
 };
 
 static unsigned int s5pc110_thres_table_1GHZ[][2] = {
+      	{70, 90},
       	{60, 90},
       	{55, 80},
         {50, 90},
@@ -162,6 +165,9 @@ static int get_dvfs_perf_level(enum freq_level_states freq_level, unsigned int *
 	struct cpufreq_frequency_table *freq_tab = s5pc110_freq_table[S5PC11X_FREQ_TAB];
 	switch(freq_level)
 	{
+	case LEV_1300MHZ:
+		freq = 1300 * 1000;
+		break;
 	case LEV_1200MHZ:
 		freq = 1200 * 1000;
 		break;
@@ -718,9 +724,9 @@ static int __init s5pc110_cpu_init(struct cpufreq_policy *policy)
 		g_dvfs_high_lock_limit = 5;
 #else
 		S5PC11X_FREQ_TAB = 0;
-		S5PC11X_MAXFREQLEVEL = 5;
-		MAXFREQ_LEVEL_SUPPORTED = 6;
-		g_dvfs_high_lock_limit = 4;
+		S5PC11X_MAXFREQLEVEL = 7;
+		MAXFREQ_LEVEL_SUPPORTED = 8;
+		g_dvfs_high_lock_limit = 7;
 #endif
 	
 	printk("S5PC11X_FREQ_TAB=%d , S5PC11X_MAXFREQLEVEL=%d\n",S5PC11X_FREQ_TAB,S5PC11X_MAXFREQLEVEL);
