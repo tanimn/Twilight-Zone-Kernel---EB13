@@ -160,7 +160,7 @@ const unsigned int (*dvs_volt_table[2])[3] = {
 };
 
 static const unsigned int dvs_arm_voltage_set[][2] = {
-	{DVSARM1, 1325},
+	{DVSARM1, 1350},
 	{DVSARM2, 1250},
 	{DVSARM3, 1150},
 	{DVSARM4, 950},
