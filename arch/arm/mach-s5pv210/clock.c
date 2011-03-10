@@ -77,7 +77,7 @@ static const u32 s5p_sys_clk_div0_tab_1GHZ[][DIV_TAB_MAX_FIELD] = {
 /*pms value table*/
 /*APLL(m, p, s), MPLL(m, p, s)*/
 static const u32 s5p_sys_clk_mps_tab_1GHZ[][6] = {
-        {175, 3, 1, 667, 12, 1}, // 1.3ghz
+        {165, 3, 1, 667, 12, 1}, // 1.3ghz
         {150, 3, 1, 667, 12, 1}, // 1.2ghz
         {125, 3, 1, 667, 12, 1}, // 1.0ghz
         {100, 3, 1, 667, 12, 1}, // .8ghz
@@ -136,7 +136,7 @@ struct S5PC110_clk_info clk_info[] = {
 	// APLL:1300,ARMCLK:1300,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	.armclk		=	1300* MHZ,
 	.apllout	=	1300* MHZ,
-	.apll_mps	=	((175<<16)|(3<<8)|1),
+	.apll_mps	=	((165<<16)|(3<<8)|1),
 	.msys_div0	=	(1|(5<<4)|(5<<8)|(1<<12)),
 	.mpllout	=	667* MHZ,
 	.mpll_mps	=	((667<<16)|(12<<8)|(1)),
