@@ -38,7 +38,7 @@
 //#define DBG(fmt...) printk(fmt)
 #define CLK_DIV_CHANGE_BY_STEP 0
 // #define MAX_DVFS_LEVEL  7
-#define MAX_DVFS_LEVEL  7
+#define MAX_DVFS_LEVEL 4 
 extern unsigned int s5pc11x_cpufreq_index;
 
 #if 0
@@ -434,10 +434,10 @@ static unsigned long s5pc11x_armclk_get_rate(struct clk *clk)
 	return rate;
 }
 
-extern unsigned int dvfs_change_direction;
+extern unsigned int dvfs_change_direction; // Twice?
 extern unsigned int prevIndex;
 extern unsigned int S5PC11X_FREQ_TAB;
-extern unsigned int dvfs_change_direction;
+// extern unsigned int dvfs_change_direction; // Twice?
 static u32 s5p_cpu_clk_tab_size(void)
 {
 	return ARRAY_SIZE(clk_info);

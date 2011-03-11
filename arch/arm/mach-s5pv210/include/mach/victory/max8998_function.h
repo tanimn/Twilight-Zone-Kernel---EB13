@@ -10,7 +10,9 @@
 #ifdef COMPILE_TEST
 typedef  unsigned char     byte;         /* Unsigned 8  bit value type. */
 typedef  unsigned char     boolean;         /* Unsigned 8  bit value type. */
+#ifndef NULL
 #define NULL 0
+#endif
 #define TRUE  1
 #define FALSE 0
 #endif
