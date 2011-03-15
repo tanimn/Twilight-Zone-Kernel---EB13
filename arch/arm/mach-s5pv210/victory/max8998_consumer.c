@@ -37,7 +37,7 @@
 #include <mach/atlas/max8998_function.h>
 #endif
 #define DBG(fmt...)
-//#define DBG printk
+// #define DBG printk
 
 #define PMIC_ARM		0
 #define PMIC_INT		1
@@ -88,9 +88,9 @@ static const unsigned int frequency_match_1GHZ[][4] = {
 /* frequency, Mathced VDD ARM voltage , Matched VDD INT*/
 #if 1
         {1200000, 1300, 1100, 0},
-        {1000000, 1250, 1100, 0},
-        {800000, 1150, 1100, 1},
-        {400000, 1150, 1100, 2},
+        {1000000, 1250, 1100, 1},
+        {800000, 1150, 1100, 2},
+        {400000, 1150, 1100, 3},
         {200000, 950, 1100, 4},
         {100000, 950, 1000, 5},
 #else //just for dvs test
@@ -332,7 +332,21 @@ int set_gpio_dvs(enum perf_level p_lv)
             //BUCK_2_EN enabled
             gpio_set_value(S5PV210_GPB(7),1);
             break;
-        default:
+
+
+
+        case L5: // To stop 'set_gpio_dvs : Invalid parameters (5)' Errors
+
+            //writel(((readl(S5PV210_GPH0DAT) & ~PMIC_SET_MASK) | PMIC_SET1_BIT | PMIC_SET2_BIT | PMIC_SET3_BIT), S5PV210_GPH0DAT);
+             //BUCK_1_EN_A disabled
+            gpio_set_value(S5PV210_GPB(6),0);
+            // BUCK_1_EN_B enabled
+            gpio_set_value(S5PV210_GPB(3),1);
+            //BUCK_2_EN enabled
+            gpio_set_value(S5PV210_GPB(7),1);
+            break;
+
+	default:
             pr_err("[PWR] %s : Invalid parameters (%d)\n", __func__, p_lv);
             return -EINVAL;
 	}
@@ -457,7 +471,7 @@ void max8998_init(void)
 	else // for 1GHZ table
 	{
 		step_curr = L0;
-		set_voltage_dvs(L1); //switch to 800MHZ
+		set_voltage_dvs(L2); //switch to 800MHZ
 	}
 	if (!dvs_initilized) dvs_initilized=1;
 }

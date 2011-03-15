@@ -41,7 +41,7 @@
 // #define USE_1DOT2GHZ 1
 
 #define DBG(fmt...)
-//#define DBG(fmt...) printk(fmt)
+// #define DBG(fmt...) printk(fmt)
 
 
 unsigned int dvfs_change_direction;
@@ -563,9 +563,9 @@ static int s5pc110_target(struct cpufreq_policy *policy,
 /* TODO */
 #if 0
 		if (S5PC11X_FREQ_TAB) {	
-			if (index <= 3)
+			if (index <= 2)
 				dvs_set_for_1dot2Ghz(1);
-			else if (index >= 4)
+			else if (index >= 3)
 				dvs_set_for_1dot2Ghz(0);
 		}
 #endif
