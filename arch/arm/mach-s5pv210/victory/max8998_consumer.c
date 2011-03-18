@@ -37,7 +37,7 @@
 #include <mach/atlas/max8998_function.h>
 #endif
 #define DBG(fmt...)
-//#define DBG printk
+// #define DBG printk
 
 #define PMIC_ARM		0
 #define PMIC_INT		1
@@ -87,8 +87,8 @@ enum PMIC_VOLTAGE {
 static const unsigned int frequency_match_1GHZ[][4] = {
 /* frequency, Mathced VDD ARM voltage , Matched VDD INT*/
 #if 1
-        {1300000, 1400, 1100, 0},
-        {1200000, 1400, 1100, 0},
+        {1300000, 1300, 1100, 0},
+        {1200000, 1300, 1100, 0},
         {1000000, 1250, 1100, 0},
         {800000, 1150, 1100, 1},
         {400000, 1150, 1100, 2},
@@ -160,7 +160,7 @@ const unsigned int (*dvs_volt_table[2])[3] = {
 };
 
 static const unsigned int dvs_arm_voltage_set[][2] = {
-	{DVSARM1, 1400},
+	{DVSARM1, 1300},
 	{DVSARM2, 1250},
 	{DVSARM3, 1150},
 	{DVSARM4, 950},
@@ -327,6 +327,36 @@ int set_gpio_dvs(enum perf_level p_lv)
             break;
         case L4:
             //writel(((readl(S5PV210_GPH0DAT) & ~PMIC_SET_MASK) | PMIC_SET1_BIT | PMIC_SET2_BIT | PMIC_SET3_BIT), S5PV210_GPH0DAT);
+             //BUCK_1_EN_A disabled
+            gpio_set_value(S5PV210_GPB(6),0);
+            // BUCK_1_EN_B disabled
+            gpio_set_value(S5PV210_GPB(3),0);
+            //BUCK_2_EN enabled
+            gpio_set_value(S5PV210_GPB(7),1);
+            break;
+
+        case L5:
+            //writel(((readl(S5PV210_GPH0DAT) & ~PMIC_SET_MASK) | PMIC_SET1_BIT | PMIC_SET2_BIT | PMIC_SET3_BIT), S5PV210_GPH0DAT);
+             //BUCK_1_EN_A enabled
+            gpio_set_value(S5PV210_GPB(6),1);
+            // BUCK_1_EN_B disabled
+            gpio_set_value(S5PV210_GPB(3),0);
+            //BUCK_2_EN enabled
+            gpio_set_value(S5PV210_GPB(7),1);
+            break;
+        
+	case L6:
+            //writel(((readl(S5PV210_GPH0DAT) & ~PMIC_SET_MASK) | PMIC_SET1_BIT | PMIC_SET2_BIT | PMIC_SET3_BIT), S5PV210_GPH0DAT);
+             //BUCK_1_EN_A disabled
+            gpio_set_value(S5PV210_GPB(6),0);
+            // BUCK_1_EN_B enabled
+            gpio_set_value(S5PV210_GPB(3),1);
+            //BUCK_2_EN enabled
+            gpio_set_value(S5PV210_GPB(7),1);
+            break;
+
+        case L7:
+            //writel(((readl(S5PV210_GPH0DAT) & ~PMIC_SET_MASK) | PMIC_SET1_BIT | PMIC_SET2_BIT | PMIC_SET3_BIT), S5PV210_GPH0DAT);
              //BUCK_1_EN_A enabled
             gpio_set_value(S5PV210_GPB(6),1);
             // BUCK_1_EN_B enabled
@@ -334,6 +364,7 @@ int set_gpio_dvs(enum perf_level p_lv)
             //BUCK_2_EN enabled
             gpio_set_value(S5PV210_GPB(7),1);
             break;
+
         default:
             pr_err("[PWR] %s : Invalid parameters (%d)\n", __func__, p_lv);
             return -EINVAL;
