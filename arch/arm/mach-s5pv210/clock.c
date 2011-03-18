@@ -136,7 +136,7 @@ struct S5PC110_clk_info clk_info[] = {
 	// APLL:1300,ARMCLK:1300,HCLK_MSYS:200,MPLL:667,HCLK_DSYS:166,HCLK_PSYS:133,PCLK_MSYS:100,PCLK_DSYS:83,PCLK_PSYS:66
 	.armclk		=	1300* MHZ,
 	.apllout	=	1300* MHZ,
-	.apll_mps	=	((325<<16)|(6<<8)|1),
+	.apll_mps	=	((320<<16)|(6<<8)|1),
 	.msys_div0	=	(0|(6<<4)|(6<<8)|(1<<12)),
 	.mpllout	=	667* MHZ,
 	.mpll_mps	=	((667<<16)|(12<<8)|(1)),

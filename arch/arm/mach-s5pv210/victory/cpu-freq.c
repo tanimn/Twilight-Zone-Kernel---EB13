@@ -70,7 +70,7 @@ static DECLARE_DELAYED_WORK(dvfs_info_print_work, inform_dvfs_clock_status);
 #if ENABLE_DVFS_LOCK_HIGH
 unsigned int g_dvfs_high_lock_token = 0;
 static DEFINE_MUTEX(dvfs_high_lock);
-unsigned int g_dvfs_high_lock_limit = 3;
+unsigned int g_dvfs_high_lock_limit = 7;
 unsigned int g_dvfslockval[NUMBER_OF_LOCKTOKEN];
 bool g_dvfs_fix_lock_limit = false; // global variable to avoid up frequency scaling 
 
