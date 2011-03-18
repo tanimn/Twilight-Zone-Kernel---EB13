@@ -51,7 +51,7 @@ unsigned int MAXFREQ_LEVEL_SUPPORTED = 7;
 unsigned int S5PC11X_MAXFREQLEVEL = 7;
 unsigned int S5PC11X_FREQ_TAB;
 static spinlock_t g_dvfslock = SPIN_LOCK_UNLOCKED;
-static unsigned int s5pc11x_cpufreq_level = 5;
+static unsigned int s5pc11x_cpufreq_level = 7;
 unsigned int s5pc11x_cpufreq_index = 0;
 
 static char cpufreq_governor_name[CPUFREQ_NAME_LEN] = "conservative";// default governor
@@ -70,7 +70,7 @@ static DECLARE_DELAYED_WORK(dvfs_info_print_work, inform_dvfs_clock_status);
 #if ENABLE_DVFS_LOCK_HIGH
 unsigned int g_dvfs_high_lock_token = 0;
 static DEFINE_MUTEX(dvfs_high_lock);
-unsigned int g_dvfs_high_lock_limit = 7;
+unsigned int g_dvfs_high_lock_limit = 4;
 unsigned int g_dvfslockval[NUMBER_OF_LOCKTOKEN];
 bool g_dvfs_fix_lock_limit = false; // global variable to avoid up frequency scaling 
 
