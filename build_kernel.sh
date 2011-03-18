@@ -4,7 +4,8 @@
 BUILD_KERNEL=y
 CLEAN=n
 # CROSS_COMPILE="$PWD/../../../toolchain/arm-2009q3/bin/arm-none-linux-gnueabi-"
-CROSS_COMPILE="$PWD/../../../toolchain/arm-2010.09/bin/arm-none-eabi-"
+# CROSS_COMPILE="$PWD/../../../toolchain/arm-2010.09/bin/arm-none-eabi-"
+CROSS_COMPILE="$PWD/../../../toolchain/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-"
 DEFCONFIG=y
 MKZIP='7z -mx9 -mmt=1 a "$OUTFILE" .'
 PRODUCE_TAR=n
