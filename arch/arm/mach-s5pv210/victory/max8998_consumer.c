@@ -63,6 +63,8 @@ unsigned int S5PC11X_FREQ_TAB = 1;
 #define RAMP_RATE 10 // 10mv/usec
 unsigned int step_curr;
 
+extern int exp_UV_mV[7];
+
 enum PMIC_VOLTAGE {
 	VOUT_0_75,
 	VOUT_0_80,
@@ -179,7 +181,8 @@ static int set_max8998(unsigned int pwr, enum perf_level p_lv)
 	DBG("%s : p_lv = %d : pwr = %d \n", __FUNCTION__, p_lv,pwr);
 
 	if(pwr == PMIC_ARM) {
-		voltage = frequency_match_tab[p_lv][pwr + 1];
+//		voltage = frequency_match_tab[p_lv][pwr + 1];
+		voltage = frequency_match_tab[p_lv][pwr + 1] - exp_UV_mV[p_lv];
 
 		if(voltage == s_arm_voltage)
 			return ret;
